@@ -14,8 +14,12 @@ public class PedidoController {
 
 
     public void listarPedido() {
+        if (pedidos.isEmpty()) {
+            System.out.println("No hay pedidos");
+            return;
+        }
         for (Pedido pedido : pedidos) {
-            System.out.println(pedido.toString());
+            System.out.println(pedido);
         }
     }
 
@@ -26,21 +30,40 @@ public class PedidoController {
 
     }
 
-    public void agregarProductoAPedido(Pedido idPedido, int idProducto, int cantidad, ProductoController productoController) {
-        Pedido pedido = obtenerPedidoPorID(idPedido.getId());
-        Producto producto = productoController.buscarProductos(idProducto);
-        if(producto != null) {
-            if(producto.getStock() >= cantidad) {
-                pedido.agregarProducto(producto, cantidad);
-                producto.setStock(producto.getStock() - cantidad);
-            }else{
-                System.out.println("Supera stock - el stock actual es de: " + producto.getStock());
-            }
+    public void agregarProductoAPedido(Pedido pedido, int idProducto, int cantidad, ProductoController productoController) {
+        if(pedido == null) {
+            System.out.println("No hay pedidos");
+            return;
         }
+
+        if(cantidad <= 0){
+            System.out.println("Cantidad debe ser mayor que 0");
+            return;
+        }
+        Pedido pedidoActual = obtenerPedidoPorID(pedido.getId());
+        Producto producto = productoController.buscarProductos(idProducto);
+
+        if(producto == null) {
+            System.out.println("Producto no encontrado");
+            return;
+        }
+
+        if(producto.getStock()< cantidad ){
+            System.out.println("Cantidad debe ser mayor que "+ producto.getStock());
+            return;
+        }
+
+        pedidoActual.agregarProducto(producto, cantidad);
+        producto.setStock(producto.getStock() - cantidad);
+        System.out.println("Producto agregado");
 
     }
 
     public void eliminarProductoDePedidos(Pedido pedido,int idProducto, ProductoController productoController) {
+        if(pedido == null) {
+            System.out.println("No hay pedidos");
+            return;
+        }
         Producto producto = productoController.buscarProductos(idProducto);
 
         if(producto != null){

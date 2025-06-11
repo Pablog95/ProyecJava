@@ -73,10 +73,34 @@ public class Menu {
         Scanner sc = new Scanner(System.in);
         System.out.println("Nombre del producto: ");
         String nombre = sc.nextLine();
+
+        double precio;
         System.out.println("Precio del producto: ");
-        double precio = sc.nextDouble();
+        try{
+            precio = sc.nextDouble();
+            if(precio < 0){
+                System.out.println("Precio invalido");
+                return;
+            }
+        }catch(InputMismatchException e){
+            System.out.println("Debe ingresar un numero valido");
+            sc.nextLine();
+            return;
+        }
+
+        int stock;
         System.out.println("Stock del producto: ");
-        int stock = sc.nextInt();
+
+        try{
+            stock = sc.nextInt();
+            if(stock < 0){
+                System.out.println("Stock invalido");
+                return;
+            }
+        }catch (InputMismatchException e){
+            System.out.println("Debe ingresar un numero valido");
+            return;
+        }
         productoController.agregarProducto(nombre, precio, stock);
     }
 

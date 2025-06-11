@@ -31,15 +31,13 @@ public class ProductoController {
 
     public Producto buscarProductos(String nombre) {
         for (Producto producto : productos) {
-            if (producto.getNombre().toLowerCase().equals(nombre.toLowerCase())) {
-                System.out.println("Producto encontado");
+            if (producto.getNombre().equalsIgnoreCase(nombre)) {
+                System.out.println("Producto encontrado");
                 System.out.println(producto);
                 return producto;
-            } else {
-                System.out.println(nombre + " no existe en el sistema o esta mal escrito");
             }
-
         }
+        System.out.println(nombre + " no existe en el sistema o esta mal escrito");
         return null;
     }
 
